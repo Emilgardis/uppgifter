@@ -1,0 +1,155 @@
+#-*- coding: utf-8 -*-
+#-----------------------------------------------------
+# Program:  bankomat.py 
+# Version:
+# Creator:  Emil Gardström, FS14b
+#    Task:  Uppgift 3
+#    Call:  bankomat.py --gui
+#       ex. 
+#       &>  x+y=z
+#-----------------------------------------------------
+# Init
+import sys
+import math, time
+import ConfigParser
+import random, os
+import base64, hashlib
+ACCOUNTFILE = 'accounts.txt'
+class Unit(object):
+  """The 'handler' of input and output, button presses and output,
+  it is the ATM itself"""
+
+  def __init__(self):
+    "Set up all buttons"
+
+class Account(object):
+  """A account with money, history and a security code"""
+
+  # Set up file handler, account file
+  acc_file = ConfigParser.RawConfigParser()
+  
+  def __init__(self, accountID, password):
+    "Initializer, sets the values to the values set in the acc_file"
+    self.acc_file.read(ACCOUNTFILE)
+    self.accountID = str(accountID)
+    self.digest = self.acc_file.get(self.accountID, 'digest')
+    self.password = password
+    self.salt = self.acc_file.get(self.accountID, 'salt')
+    self.balance = self.acc_file.get(self.accountID, 'balance')
+  
+  @staticmethod
+  def asList(value):
+    "Make a string of each list member separated by new-carriage."
+    if isinstance(value, string_types):
+      value = filter(None, [x.strip() for x in value.splitlines()])
+    return list(value)
+  
+  @staticmethod
+  def list_toStr(value):
+    """Same as asList(val) except does the opposite, takes a string
+    and separates each section separated with new-carriage into a list"""
+    return '\n'.join(value)
+  
+  @staticmethod
+  def getDigest(password, salt):
+    "Makes the digest of password and salt, used for password keeping"
+    return hashlib.sha256('{}'.format(salt) + password).hexdigest()
+
+  def isPassword(self, password, salt, orginalDigest):
+    "Checks if digest of password and salt matches the orginalDigest"
+    return self.getDigest(password, salt ) == orginalDigest
+  
+  def writeFile(self):
+      """Writes content to file TODO: replace with a more default function outside the class"""
+    with open(ACCOUNTFILE, 'wb') as configfile:
+      self.acc_file.write(configfile)
+
+  @property
+  def salt(self):
+    "self.salt get"
+    return self.acc_file.get(self.accountID,'salt')
+
+  @salt.setter  
+  def salt(self, value):
+    "self.salt setter"
+    self.acc_file.set(self.accountID, 'salt', value)
+  
+  @property 
+  def digest(self):
+    "self.digest getter"
+    return self.acc_file.get(self.accountID, 'digest')
+  @digest.setter
+  def digest(self, value):
+    "self.digest setter"
+    self.acc_file.set(self.accountID, 'digest', value)
+
+  @property
+  def balance(self):
+    "self.balance setter"
+    return int(self.acc_file.get(self.accountID,'balance'))
+  @balance.setter
+  def balance(self, value,flag=True):
+   "self.balance getter"
+    if self.isPassword(self.password, self.salt, self.digest):
+      self.acc_file.set(self.accountID, 'balance', value)
+    else:
+      return False
+
+  @property
+  def password(self):
+    "self._password getter"
+    return self._password
+  @password.setter
+  def password(self,value):
+    "self._password setter"
+    self._password = value
+                                        
+  @property
+  def history(self):
+    "self.history getter"
+    return str(self.acc_file.get(self.accountID, 'history'))
+
+  @history.setter
+  def history(self, string):
+    "self.history setter"
+    self.acc_file.set(self.accountID, 'history', string)
+
+  def updateHistory(self, string):
+    "Updates history with current time and string"
+     self.acc_file.set(self.accountID, 'history', self.history + '\n' + 
+                time.strftime("%d %b %Y %H:%M:%S, {}".format(string)))
+
+  @classmethod
+  def New(cls, accountID, password):
+    """Called for new accounts
+    Setups the config file for an new acccount"""
+    
+    
+    cls.acc_file.read(ACCOUNTFILE)
+    cls.acc_file.add_section(str(accountID))
+    salt = base64.b64encode(os.urandom(32)) # Should not be needed but fixed a lot of problems, TODO
+
+
+    cls.acc_file.set(str(accountID),    'salt',  salt)
+    cls.acc_file.set(str(accountID),  'digest', cls.getDigest(password, salt))
+    # assert cls.getDigest(password,salt) == cls.getDigest(password, salt)
+    
+    cls.acc_file.set(str(accountID), 'balance', 0)
+    cls.acc_file.set(str(accountID), 'history', time.strftime("%d %b %Y %H:%M:%S, {}".format("Created account")))
+    return cls(accountID, password)
+
+  
+
+
+#main()
+def main():
+  acc = Account("U34X","lol")
+  acc.balance = acc.balance + 190
+  acc.updateHistory("Added +{} kr".format(190))
+  acc.writeFile()
+  
+
+  
+
+if __name__ == '__main__':
+  main()
