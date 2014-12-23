@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------
-# Program:  *.py
+# Program:  uppgift23.py
 # Skapare:  Emil Gardström, FS14b
-# Uppgift:  Uppgift *.*
+# Uppgift:  Uppgift 2.3
 #
-#    Call:  *.py arg1 arg2
-#       ex. *.py x y
-#       &>  x+y=z
+#    Call:  uppgift23.py arg1 arg2
 # -----------------------------------------------------
-# Init
+#
 import uppgift22
-
-uppgift22.main()
 
 
 def main():
     sum = 0
-    for i in uppgift22.primegen():
-        if i > 2e6:
+    for i in uppgift22.primegen():  # Make generator. i is prime@cycle
+        if i > 2e6:  # 2e6 = 2 million
             break
         sum += i
     print sum
