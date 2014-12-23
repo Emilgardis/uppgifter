@@ -4,9 +4,7 @@
 # Skapare:  Emil Gardström, FS14b
 # Uppgift:  Uppgift 2.2
 #               Vilket är det 10001:a primtalet
-#    Call:  *.py arg1 arg2
-#       ex. *.py x y
-#       &>  x+y=z
+#    Call:  python uppgift22.py
 # -----------------------------------------------------
 # Init
 from itertools import islice
@@ -15,7 +13,9 @@ from itertools import islice
 def primegen():
     """docstring for primegen
     generates a iterator
-    inspired by David Eppstein: http://code.activestate.com/recipes/117119/"""
+    inspired by David Eppstein: http://code.activestate.com/recipes/117119/
+    """
+
     sieve = {}
     count = 2
     while True:
