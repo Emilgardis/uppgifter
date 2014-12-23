@@ -11,6 +11,8 @@
 # Init
 import uppgift22
 
+uppgift22.main()
+
 
 def main():
     sum = 0

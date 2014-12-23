@@ -16,7 +16,7 @@ import base64, hashlib
 import logging, getpass
 import ju
 ACCOUNTFILE = "accounts.txt"
-clas Account(object):
+class Account(object):
   """Actual values of account
   """
   def __init__self, accountID, password, acc_file):
