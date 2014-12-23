@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-# Hitta största palindrom tal med produkt av två 3-siffriga tal
+# -----------------------------------------------------
+# Program:  uppgift23.py
+# Skapare:  Emil Gardström, FS14b
+# Uppgift:  Uppgift 2.3
+#           Hitta största palindrom tal med produkt av två 3-siffriga tal
+#    Call:  python uppgift23.py
+# -----------------------------------------------------
+#
 
 
 def fastpal(number):
@@ -27,6 +34,7 @@ def main():
     print "{} ({} * {}) is the highest possible palindrome consisting of 3 de"\
         "cimal places".format(n[0], n[1], n[2])
     return n[0]
+
 
 if __name__ == '__main__':
     main()

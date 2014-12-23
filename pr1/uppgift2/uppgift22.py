@@ -6,7 +6,7 @@
 #               Vilket är det 10001:a primtalet
 #    Call:  python uppgift22.py
 # -----------------------------------------------------
-# Init
+#
 from itertools import islice
 
 

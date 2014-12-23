@@ -3,7 +3,7 @@
 # Program:  uppgift23.py
 # Skapare:  Emil Gardström, FS14b
 # Uppgift:  Uppgift 2.3
-#
+#               Summan av allaprimtal under 2 miljoner
 #    Call:  uppgift23.py arg1 arg2
 # -----------------------------------------------------
 #
