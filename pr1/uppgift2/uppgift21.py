@@ -32,7 +32,7 @@ def main():
             if fastpal(j) and j > n[0]:  # If palindrome and > than previous.
                 n = [j, i, k]
     print "{} ({} * {}) is the highest possible palindrome consisting of 3 de"\
-        "cimal places".format(n[0], n[1], n[2])
+        "cimal places".format(*n)
     return n[0]
 
 
